@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Проверка локальной сети</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>🛰️ Проверка работы по локальной сети</h1>
+    <div id="status-badge" class="badge badge-wait">Ожидание…</div>
+  </header>
+
+  <main>
+    <!-- Быстрый ping -->
+    <section class="card">
+      <h2>1. Проверка доступности сервера (ping)</h2>
+      <p class="hint">Отправляет запрос <code>GET /api/ping</code> и измеряет время ответа.</p>
+      <button id="btn-ping" class="btn">Проверить соединение</button>
+      <div id="ping-result" class="result hidden"></div>
+    </section>
+
+    <!-- Непрерывный мониторинг -->
+    <section class="card">
+      <h2>2. Мониторинг соединения</h2>
+      <p class="hint">Автоматические проверки каждые 2 секунды с графиком задержки.</p>
+      <button id="btn-monitor" class="btn btn-alt">▶ Запустить мониторинг</button>
+      <canvas id="chart" width="640" height="160"></canvas>
+      <div id="monitor-stats" class="stats hidden">
+        <div><span class="label">Последняя задержка:</span> <b id="stat-last">—</b></div>
+        <div><span class="label">Средняя:</span> <b id="stat-avg">—</b></div>
+        <div><span class="label">Максимальная:</span> <b id="stat-max">—</b></div>
+        <div><span class="label">Успешно / всего:</span> <b id="stat-ok">—</b></div>
+      </div>
+    </section>
+
+    <!-- Информация о сервере -->
+    <section class="card">
+      <h2>3. Информация о сервере</h2>
+      <p class="hint">Запрос <code>GET /api/info</code>: хост, IP-адреса в сети, аптайм.</p>
+      <button id="btn-info" class="btn">Загрузить информацию</button>
+      <pre id="info-result" class="result hidden"></pre>
+    </section>
+
+    <!-- Тест скорости загрузки -->
+    <section class="card">
+      <h2>4. Тест пропускной способности</h2>
+      <p class="hint">Скачивает данные с сервера и измеряет скорость канала.</p>
+      <select id="dl-size">
+        <option value="262144">256 КБ</option>
+        <option value="1048576" selected>1 МБ</option>
+        <option value="5242880">5 МБ</option>
+      </select>
+      <button id="btn-speed" class="btn">Запустить тест</button>
+      <div id="speed-result" class="result hidden"></div>
+    </section>
+
+    <!-- Проверка другого хоста -->
+    <section class="card">
+      <h2>5. Проверка другого устройства в сети</h2>
+      <p class="hint">Сервер попробует открыть TCP-соединение с указанным хостом:портом
+        (например, другой компьютер, принтер, роутер).</p>
+      <input id="probe-host" type="text" placeholder="IP или имя хоста, напр. 192.168.1.10" value="">
+      <input id="probe-port" type="number" placeholder="Порт" value="80" min="1" max="65535">
+      <button id="btn-probe" class="btn">Проверить хост</button>
+      <div id="probe-result" class="result hidden"></div>
+    </section>
+  </main>
+
+  <footer>
+    Мини-сайт для диагностики локальной сети · без внешних зависимостей
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
